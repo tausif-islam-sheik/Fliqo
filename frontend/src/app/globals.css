@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+/* Gilroy — self-hosted (see public/fonts) */
+@font-face {
+  font-family: "Gilroy";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/fonts/Gilroy-Light.woff") format("woff");
+}
+@font-face {
+  font-family: "Gilroy";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/Gilroy-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: "Gilroy";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/Gilroy-Medium.woff") format("woff");
+}
+@font-face {
+  font-family: "Gilroy";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/Gilroy-Bold.woff") format("woff");
+}
+@font-face {
+  font-family: "Gilroy";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/Gilroy-Heavy.woff") format("woff");
+}
+
+@theme {
+  --font-sans: "Gilroy", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+
+  /* Fliqo brand — glossy navy blue */
+  --color-brand-50: #eef3fb;
+  --color-brand-100: #d9e4f5;
+  --color-brand-200: #b3c9e9;
+  --color-brand-300: #84a8d8;
+  --color-brand-400: #5583c2;
+  --color-brand-500: #3567ab;
+  --color-brand-600: #234f8f;
+  --color-brand-700: #1c4176;
+  --color-brand-800: #1a3761;
+  --color-brand-900: #172c4e;
+  --color-brand-950: #0d1a33;
+
+  /* Gold accent */
+  --color-gold-100: #fdf3d7;
+  --color-gold-200: #fae6a8;
+  --color-gold-300: #ffd97a;
+  --color-gold-400: #fabb2e;
+  --color-gold-500: #f5a301;
+  --color-gold-600: #d18a02;
+  --color-gold-700: #a66a06;
+
+  --shadow-card: 0 1px 2px rgb(13 26 51 / 0.07), 0 8px 24px -12px rgb(13 26 51 / 0.22);
+  --shadow-pop: 0 12px 40px -12px rgb(13 26 51 / 0.4);
+
+  --animate-fade-up: fade-up 0.5s ease both;
+  --animate-fade-in: fade-in 0.4s ease both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-slate-50);
+  color: var(--color-slate-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-brand-200);
+}
+
+/* Glossy sheen overlay for buttons, tiles and hero panels */
+.gloss {
+  position: relative;
+  isolation: isolate;
+}
+.gloss::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.28), rgb(255 255 255 / 0) 46%);
+  pointer-events: none;
+}
+.gloss > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Frosted glass chips for dark backgrounds */
+.glass {
+  background: rgb(255 255 255 / 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Slim, tinted scrollbars for horizontal scrollers */
+.scroll-slim::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.scroll-slim::-webkit-scrollbar-thumb {
+  background: var(--color-brand-200);
+  border-radius: 999px;
+}

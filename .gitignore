@@ -1,0 +1,39 @@
+# deps
+node_modules/
+.pnp
+.pnp.*
+
+# next
+frontend/.next/
+frontend/out/
+frontend/.turbo/
+
+# nest
+backend/dist/
+backend/.turbo/
+
+# turbo
+.turbo/
+
+# env
+.env
+.env*.local
+backend/.env
+frontend/.env.local
+
+# uploads + backups (persistent volumes, never commit)
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/backups/*
+!backend/backups/.gitkeep
+
+# prisma
+backend/prisma/*.db
+
+# logs / os
+*.log
+.DS_Store
+Thumbs.db
+
+# pnpm
+pnpm-store/

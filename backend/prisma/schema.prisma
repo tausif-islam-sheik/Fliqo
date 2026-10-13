@@ -1,0 +1,633 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------- Enums ----------
+enum UserType {
+  CUSTOMER
+  STAFF
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+enum OtpPurpose {
+  EMAIL_VERIFY
+  PASSWORD_RESET
+  EMAIL_CHANGE
+  TWO_FACTOR
+}
+
+enum BookingType {
+  FLIGHT
+  HOTEL
+  TOUR
+  VISA
+}
+
+enum BookingStatus {
+  DRAFT
+  PENDING_PAYMENT
+  PAID
+  TICKETING
+  CONFIRMED
+  EXPIRED
+  PAYMENT_FAILED
+  TICKETING_FAILED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum RefundStatus {
+  REQUESTED
+  APPROVED
+  REJECTED
+  COMPLETED
+  FAILED
+}
+
+enum MarkupType {
+  FIXED
+  PERCENT
+}
+
+enum DiscountType {
+  FIXED
+  PERCENT
+}
+
+enum ProductType {
+  FLIGHT
+  HOTEL
+  TOUR
+  VISA
+}
+
+enum FileVisibility {
+  PUBLIC
+  PRIVATE
+}
+
+enum CampaignStatus {
+  DRAFT
+  SCHEDULED
+  SENDING
+  SENT
+  PAUSED
+  CANCELLED
+}
+
+enum RecipientStatus {
+  QUEUED
+  SENT
+  FAILED
+}
+
+enum EmailEventType {
+  DELIVERED
+  OPENED
+  CLICKED
+  BOUNCED
+  COMPLAINED
+  UNSUBSCRIBED
+}
+
+enum BackupType {
+  SCHEDULED
+  MANUAL
+  PRE_RESTORE
+}
+
+enum BackupStatus {
+  RUNNING
+  COMPLETED
+  FAILED
+  RESTORING
+}
+
+enum AnalyticsEventType {
+  SEARCH
+  VIEW_RESULT
+  START_CHECKOUT
+  PAID
+  TICKETED
+}
+
+// ---------- Auth / Users ----------
+model User {
+  id              String     @id @default(cuid())
+  email           String     @unique
+  phone           String?    @unique
+  passwordHash    String
+  name            String
+  type            UserType   @default(CUSTOMER)
+  roleId          String?
+  role            Role?      @relation(fields: [roleId], references: [id])
+  status          UserStatus @default(ACTIVE)
+  emailVerifiedAt DateTime?
+  marketingOptIn  Boolean    @default(false)
+  twoFactorEnabled Boolean   @default(false)
+  lastLoginAt     DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  bookings       Booking[]
+  travelers      Traveler[]
+  refreshTokens  RefreshToken[]
+  files          FileUpload[]     @relation("UploadedFiles")
+  auditLogs      AuditLog[]       @relation("ActorLogs")
+  backupsStarted Backup[]         @relation("BackupStarter")
+  invitesSent    StaffInvite[]    @relation("InviteSender")
+  templatesOwned EmailTemplate[]  @relation("TemplateEditor")
+
+  @@index([createdAt])
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  users       User[]
+  permissions RolePermission[]
+  invites     StaffInvite[]
+}
+
+model Permission {
+  id          String   @id @default(cuid())
+  key         String   @unique // module.action e.g. bookings.refund
+  module      String
+  description String?
+
+  roles RolePermission[]
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+}
+
+model StaffInvite {
+  id         String    @id @default(cuid())
+  email      String
+  name       String
+  roleId     String
+  role       Role      @relation(fields: [roleId], references: [id])
+  tokenHash  String    @unique
+  expiresAt  DateTime
+  acceptedAt DateTime?
+  invitedById String?
+  invitedBy  User?     @relation("InviteSender", fields: [invitedById], references: [id])
+  createdAt  DateTime  @default(now())
+
+  @@index([email])
+}
+
+model RefreshToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+  userAgent String?
+  ip        String?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+}
+
+model Otp {
+  id        String     @id @default(cuid())
+  target    String // phone or email
+  codeHash  String
+  purpose   OtpPurpose
+  expiresAt DateTime
+  attempts  Int        @default(0)
+  createdAt DateTime   @default(now())
+
+  @@index([target, purpose])
+}
+
+model Traveler {
+  id             String    @id @default(cuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title          String?
+  firstName      String
+  lastName       String
+  dob            DateTime?
+  gender         String?
+  nationality    String?
+  passportNo     String?
+  passportExpiry DateTime?
+  createdAt      DateTime  @default(now())
+
+  @@index([userId])
+}
+
+// ---------- Bookings ----------
+model Booking {
+  id           String        @id @default(cuid())
+  bookingRef   String        @unique
+  userId       String
+  user         User          @relation(fields: [userId], references: [id])
+  type         BookingType
+  status       BookingStatus @default(DRAFT)
+  totalAmount  Decimal       @db.Decimal(12, 2)
+  currency     String        @default("BDT")
+  supplierCost Decimal?      @db.Decimal(12, 2)
+  markup       Decimal?      @db.Decimal(12, 2)
+  discount     Decimal?      @db.Decimal(12, 2)
+  contactEmail String
+  contactPhone String
+  expiresAt    DateTime?
+  idempotencyKey String? @unique
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  flight FlightBooking?
+  hotel  HotelBooking?
+  tour   TourBooking?
+  visa   VisaApplication?
+
+  passengers BookingPassenger[]
+  payments   Payment[]
+  refunds    Refund[]
+
+  @@index([userId, createdAt])
+  @@index([status])
+}
+
+model BookingPassenger {
+  id        String   @id @default(cuid())
+  bookingId String
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  paxType   String   @default("ADULT")
+  title     String?
+  firstName String
+  lastName  String
+  dob       DateTime?
+  passportNo String?
+
+  @@index([bookingId])
+}
+
+model FlightBooking {
+  bookingId         String    @id
+  booking           Booking   @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  provider          String
+  pnr               String?
+  ticketNumbers     String[]  @default([])
+  itinerary         Json
+  fareRules         Json?
+  ticketingDeadline DateTime?
+}
+
+model HotelBooking {
+  bookingId          String   @id
+  booking            Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  provider           String
+  supplierRef        String?
+  hotelId            String
+  checkIn            DateTime
+  checkOut           DateTime
+  rooms              Json
+  cancellationPolicy Json?
+}
+
+// Direct-contract + supplier hotels (PDF p.7: domestic margins)
+model Hotel {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  city      String
+  stars     Int      @default(3)
+  amenities String[] @default([])
+  images    String[] @default([])
+  rooms     Json // [{id,name,price,currency,available}]
+  isActive  Boolean  @default(true)
+  featured  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([city, isActive])
+}
+
+model VisaCountry {
+  code           String  @id // e.g. THA
+  name           String
+  requirements   Json // {docs[], notes}
+  fee            Decimal @db.Decimal(12, 2)
+  processingDays Int     @default(7)
+  isActive       Boolean @default(true)
+}
+
+model TourPackage {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String
+  destination  String
+  durationDays Int
+  itinerary    Json
+  inclusions   String[] @default([])
+  basePrice    Decimal  @db.Decimal(12, 2)
+  images       String[] @default([])
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  departures TourDeparture[]
+}
+
+model TourDeparture {
+  id         String      @id @default(cuid())
+  packageId  String
+  pkg        TourPackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  startDate  DateTime
+  seatsTotal Int
+  seatsLeft  Int
+  price      Decimal     @db.Decimal(12, 2)
+
+  bookings TourBooking[]
+
+  @@index([packageId, startDate])
+}
+
+model TourBooking {
+  bookingId   String        @id
+  booking     Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  departureId String
+  departure   TourDeparture @relation(fields: [departureId], references: [id])
+  paxCount    Int           @default(1)
+}
+
+model VisaApplication {
+  bookingId  String       @id
+  booking    Booking      @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  country    String
+  visaType   String
+  status     String       @default("DRAFT")
+  documents  String[]     @default([]) // FileUpload ids
+}
+
+// ---------- Payments ----------
+model Payment {
+  id           String        @id @default(cuid())
+  bookingId    String
+  booking      Booking       @relation(fields: [bookingId], references: [id])
+  gateway      String
+  gatewayTxnId String?       @unique
+  idempotencyKey String? @unique
+  amount       Decimal       @db.Decimal(12, 2)
+  status       PaymentStatus @default(PENDING)
+  rawResponse  Json?
+  createdAt    DateTime      @default(now())
+
+  refunds Refund[]
+
+  @@index([bookingId])
+}
+
+model Refund {
+  id        String       @id @default(cuid())
+  bookingId String
+  booking   Booking      @relation(fields: [bookingId], references: [id])
+  paymentId String?
+  payment   Payment?     @relation(fields: [paymentId], references: [id])
+  amount    Decimal      @db.Decimal(12, 2)
+  reason    String?
+  status    RefundStatus @default(REQUESTED)
+  createdAt DateTime     @default(now())
+}
+
+// ---------- Catalog / Pricing ----------
+model MarkupRule {
+  id          String      @id @default(cuid())
+  productType ProductType
+  filter      Json?
+  type        MarkupType
+  value       Decimal     @db.Decimal(12, 2)
+  priority    Int         @default(0)
+  active      Boolean     @default(true)
+}
+
+model Coupon {
+  id           String       @id @default(cuid())
+  code         String       @unique
+  discountType DiscountType
+  value        Decimal      @db.Decimal(12, 2)
+  maxUses      Int?
+  usedCount    Int          @default(0)
+  validFrom    DateTime?
+  validTo      DateTime?
+  minAmount    Decimal?     @db.Decimal(12, 2)
+}
+
+model Airport {
+  code    String @id
+  name    String
+  city    String?
+  country String?
+}
+
+model Airline {
+  code String @id
+  name String
+}
+
+model City {
+  code    String @id
+  name    String
+  country String?
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  actor     User?    @relation("ActorLogs", fields: [actorId], references: [id])
+  action    String
+  entity    String
+  entityId  String?
+  before    Json?
+  after     Json?
+  createdAt DateTime @default(now())
+
+  @@index([actorId, createdAt])
+}
+
+model FileUpload {
+  id           String         @id @default(cuid())
+  path         String // relative to uploads/
+  originalName String
+  mimeType     String
+  sizeBytes    Int
+  visibility   FileVisibility @default(PUBLIC)
+  uploadedById String?
+  uploadedBy   User?          @relation("UploadedFiles", fields: [uploadedById], references: [id])
+  createdAt    DateTime       @default(now())
+}
+
+// ---------- Email / Campaigns ----------
+model EmailTemplate {
+  id        String   @id @default(cuid())
+  name      String
+  key       String   @unique
+  subject   String
+  preheader String?
+  content   Json?
+  updatedById String?
+  updatedBy User?    @relation("TemplateEditor", fields: [updatedById], references: [id])
+  updatedAt DateTime @updatedAt
+
+  campaigns Campaign[]
+}
+
+model Campaign {
+  id          String         @id @default(cuid())
+  name        String
+  templateId  String?
+  template    EmailTemplate? @relation(fields: [templateId], references: [id])
+  segment     Json?
+  status      CampaignStatus @default(DRAFT)
+  scheduledAt DateTime?
+  sentAt      DateTime?
+  sent        Int            @default(0)
+  opened      Int            @default(0)
+  clicked     Int            @default(0)
+  bounced     Int            @default(0)
+  unsubscribed Int           @default(0)
+  createdAt   DateTime       @default(now())
+
+  recipients CampaignRecipient[]
+}
+
+model CampaignRecipient {
+  id                String          @id @default(cuid())
+  campaignId        String
+  campaign          Campaign        @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  userId            String?
+  email             String
+  status            RecipientStatus @default(QUEUED)
+  providerMessageId String?
+  openedAt          DateTime?
+  clickedAt         DateTime?
+  createdAt         DateTime        @default(now())
+
+  events EmailEvent[]
+
+  @@index([campaignId, status])
+}
+
+model EmailEvent {
+  id          String         @id @default(cuid())
+  recipientId String
+  recipient   CampaignRecipient @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+  type        EmailEventType
+  url         String?
+  createdAt   DateTime       @default(now())
+
+  @@index([recipientId, type])
+}
+
+model EmailSuppression {
+  email     String   @id
+  reason    String
+  createdAt DateTime @default(now())
+}
+
+// ---------- Content / CMS ----------
+model Offer {
+  id        String    @id @default(cuid())
+  slug      String    @unique
+  title     String
+  image     String?
+  validFrom DateTime?
+  validTo   DateTime?
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+}
+
+model BlogPost {
+  id        String    @id @default(cuid())
+  slug      String    @unique
+  title     String
+  excerpt   String?
+  content   String // Markdown
+  published Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model CmsPage {
+  slug      String   @id
+  title     String
+  content   String // Markdown
+  updatedAt DateTime @updatedAt
+}
+
+model NewsletterSubscriber {
+  email     String   @id
+  createdAt DateTime @default(now())
+}
+
+// ---------- Ops ----------
+model Backup {
+  id              String       @id @default(cuid())
+  fileName        String
+  type            BackupType
+  includesUploads Boolean      @default(false)
+  sizeBytes       BigInt?
+  checksum        String?
+  status          BackupStatus @default(RUNNING)
+  error           String?
+  note            String?
+  startedById     String?
+  startedBy       User?        @relation("BackupStarter", fields: [startedById], references: [id])
+  startedAt       DateTime     @default(now())
+  finishedAt      DateTime?
+}
+
+model DailyStats {
+  date          DateTime
+  productType   ProductType
+  paymentMethod String
+  bookings      Int         @default(0)
+  revenue       Decimal     @default(0) @db.Decimal(12, 2)
+  profit        Decimal     @default(0) @db.Decimal(12, 2)
+  refunds       Decimal     @default(0) @db.Decimal(12, 2)
+  failedPayments Int        @default(0)
+  newUsers      Int         @default(0)
+
+  @@id([date, productType, paymentMethod])
+}
+
+model AnalyticsEvent {
+  id          String             @id @default(cuid())
+  type        AnalyticsEventType
+  productType ProductType?
+  route       String?
+  sessionId   String?
+  userId      String?
+  device      String?
+  createdAt   DateTime           @default(now())
+
+  @@index([type, createdAt])
+}

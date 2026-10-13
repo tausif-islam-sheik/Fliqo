@@ -1,0 +1,26 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.8.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm approve-builds --all
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @fliqo/backend exec prisma generate
+        env:
+          DATABASE_URL: postgresql://fliqo:fliqo@localhost:5432/fliqo
+      - run: pnpm --filter @fliqo/backend build
+      - run: pnpm --filter @fliqo/frontend build

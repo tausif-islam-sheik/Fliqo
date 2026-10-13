@@ -1,0 +1,8 @@
+{
+  "name": "@fliqo/emails",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@react-email/components": "1.0.12"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "fliqo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Fliqo — Bangladesh-first OTA (GoZayaan-style). Flat monorepo: frontend/ backend/ packages/*",
+  "packageManager": "pnpm@11.8.0",
+  "engines": {
+    "node": ">=24 <25",
+    "pnpm": ">=11"
+  },
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "dev": "turbo run dev --parallel",
+    "dev:web": "pnpm --filter @fliqo/frontend dev",
+    "dev:api": "pnpm --filter @fliqo/backend dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "db:migrate": "pnpm --filter @fliqo/backend db:migrate",
+    "db:seed": "pnpm --filter @fliqo/backend db:seed"
+  },
+  "devDependencies": {
+    "turbo": "2.11.5",
+    "typescript": "7.0.2"
+  }
+}
