@@ -53,7 +53,7 @@ function VerifyForm() {
         </>
       }
     >
-      <div className="flex items-center gap-3 rounded-2xl bg-brand-50 p-3 text-sm text-brand-800">
+      <div className="flex items-center gap-3 rounded-lg bg-brand-50 p-3 text-sm text-brand-800">
         <MailCheck className="h-5 w-5 shrink-0" />
         Check your inbox — and Mailpit :8025 when running locally.
       </div>
@@ -64,7 +64,7 @@ function VerifyForm() {
         inputMode="numeric"
         autoComplete="one-time-code"
         aria-label="Verification code"
-        className="mt-4 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-center text-2xl font-extrabold tracking-[0.5em] text-slate-900 shadow-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none"
+        className="mt-4 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-center text-2xl font-extrabold tracking-[0.5em] text-slate-900 shadow-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none"
       />
       {error && (
         <div className="mt-3">

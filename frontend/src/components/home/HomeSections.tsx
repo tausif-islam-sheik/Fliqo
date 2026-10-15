@@ -5,7 +5,7 @@ import { ArrowRight, CalendarDays, MapPin, Star, Tag } from "lucide-react";
 import { api } from "@/lib/api/client";
 import { useHotelSearch } from "@/lib/query/catalog";
 import { useTours } from "@/lib/query/catalog";
-import { Badge, bdt, Btn, Card, EmptyState, LoadingState, SectionHead } from "@/components/ui";
+import { Badge, bdt, Btn, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, EmptyState, LoadingState, SectionHead } from "@/components/ui";
 
 export function FeaturedTours() {
   const { data, isLoading } = useTours();
@@ -27,24 +27,34 @@ export function FeaturedTours() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tours.map((t: any) => (
             <Card key={t.id} className="flex flex-col overflow-hidden transition hover:-translate-y-0.5 hover:shadow-pop">
-              <div className="gloss flex h-28 items-end bg-gradient-to-br from-brand-800 via-blue-700 to-sky-400 p-4 ring-1 ring-white/20 ring-inset">
-                <span className="flex items-center gap-1.5 text-sm font-bold text-white">
+              <div className="relative flex h-28 items-end overflow-hidden bg-gradient-to-br from-brand-800 via-blue-700 to-sky-400 p-4">
+                {t.images?.[0] && (
+                  <img
+                    src={t.images[0]}
+                    alt={t.title}
+                    loading="lazy"
+                    onError={(e) => { e.currentTarget.style.display = "none"; }}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-950/70 via-transparent to-transparent" />
+                <span className="relative flex items-center gap-1.5 text-sm font-bold text-white text-shadow-hero">
                   <MapPin className="h-4 w-4" /> {t.destination}
                 </span>
               </div>
-              <div className="flex flex-1 flex-col p-5">
-                <p className="font-extrabold text-slate-900">{t.title}</p>
-                <p className="mt-1 flex items-center gap-1 text-sm text-slate-500">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">{t.title}</CardTitle>
+                <CardDescription className="flex items-center gap-1">
                   <CalendarDays className="h-4 w-4" /> {t.durationDays} days
-                </p>
-                <div className="mt-3 flex items-end justify-between gap-2 border-t border-slate-100 pt-3">
-                  <div>
-                    <p className="text-xs text-slate-400">From</p>
-                    <p className="text-lg font-extrabold text-brand-700">{bdt(t.basePrice)}</p>
-                  </div>
-                  <Btn href={`/tours/${t.slug}`} size="sm">View</Btn>
+                </CardDescription>
+              </CardHeader>
+              <CardFooter className="mt-auto items-end justify-between gap-2 border-t border-slate-100 pt-4">
+                <div>
+                  <p className="text-xs text-slate-400">From</p>
+                  <p className="text-lg font-extrabold text-brand-700">{bdt(t.basePrice)}</p>
                 </div>
-              </div>
+                <Btn href={`/tours/${t.slug}`} size="sm">View</Btn>
+              </CardFooter>
             </Card>
           ))}
         </div>
@@ -74,23 +84,40 @@ export function FeaturedHotels() {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {hotels.map((h: any) => (
-            <Card key={h.id} className="p-5 transition hover:-translate-y-0.5 hover:shadow-pop">
-              <div className="flex items-start justify-between gap-2">
-                <p className="font-extrabold text-slate-900">{h.name}</p>
-                {h.featured && <Badge tone="amber"><Star className="h-3 w-3" /> Featured</Badge>}
+            <Card key={h.id} className="flex flex-col overflow-hidden transition hover:-translate-y-0.5 hover:shadow-pop">
+              <div className="relative h-36 overflow-hidden bg-gradient-to-br from-brand-100 to-sky-100">
+                {h.images?.[0] && (
+                  <img
+                    src={h.images[0]}
+                    alt={h.name}
+                    loading="lazy"
+                    onError={(e) => { e.currentTarget.style.display = "none"; }}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                )}
               </div>
-              <p className="mt-1 flex items-center gap-1 text-sm text-slate-500">
-                <MapPin className="h-4 w-4" /> {h.city} · {"★".repeat(h.stars ?? 3)}
-              </p>
-              <p className="mt-2 line-clamp-1 text-sm text-slate-500">{(h.amenities ?? []).join(" · ")}</p>
-              <Btn
-                href={`/hotels/${h.slug}?checkIn=${today}&checkOut=${tomorrow}`}
-                variant="outline"
-                size="sm"
-                className="mt-4 w-full"
-              >
-                View rooms
-              </Btn>
+              <CardHeader className="pb-2">
+                <div className="flex items-start justify-between gap-2">
+                  <CardTitle className="text-base">{h.name}</CardTitle>
+                  {h.featured && <Badge tone="amber"><Star className="h-3 w-3" /> Featured</Badge>}
+                </div>
+                <CardDescription className="flex items-center gap-1">
+                  <MapPin className="h-4 w-4" /> {h.city} · {"★".repeat(h.stars ?? 3)}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="line-clamp-1 text-sm text-slate-500">{(h.amenities ?? []).join(" · ")}</p>
+              </CardContent>
+              <CardFooter>
+                <Btn
+                  href={`/hotels/${h.slug}?checkIn=${today}&checkOut=${tomorrow}`}
+                  variant="outline"
+                  size="sm"
+                  className="w-full"
+                >
+                  View rooms
+                </Btn>
+              </CardFooter>
             </Card>
           ))}
         </div>
@@ -113,15 +140,19 @@ export function OffersPreview() {
       />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {offers.map((o: any) => (
-          <Card key={o.id} className="border-gold-300 bg-gradient-to-br from-gold-100 to-white p-5">
-            <p className="flex items-center gap-1.5 text-xs font-bold tracking-wide text-gold-700 uppercase">
-              <Tag className="h-3.5 w-3.5" /> Limited time
-            </p>
-            <p className="mt-1 font-extrabold text-slate-900">{o.title}</p>
-            {o.validTo && (
-              <p className="mt-1 text-xs text-slate-500">
-                Valid until {new Date(o.validTo).toLocaleDateString()}
+          <Card key={o.id} className="border-gold-300 bg-gradient-to-br from-gold-100 to-white">
+            <CardHeader className="pb-2">
+              <p className="flex items-center gap-1.5 text-xs font-bold tracking-wide text-gold-700 uppercase">
+                <Tag className="h-3.5 w-3.5" /> Limited time
               </p>
+              <CardTitle className="text-base">{o.title}</CardTitle>
+            </CardHeader>
+            {o.validTo && (
+              <CardContent>
+                <p className="text-xs text-slate-500">
+                  Valid until {new Date(o.validTo).toLocaleDateString()}
+                </p>
+              </CardContent>
             )}
           </Card>
         ))}

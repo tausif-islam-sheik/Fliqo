@@ -102,7 +102,7 @@ export function FareCalendar({
                 disabled={disabled}
                 onClick={() => onSelect(iso)}
                 className={cn(
-                  "flex cursor-pointer flex-col items-center rounded-xl px-0.5 py-1.5 transition",
+                  "flex cursor-pointer flex-col items-center rounded-lg px-0.5 py-1.5 transition",
                   selected
                     ? "bg-brand-950 text-white shadow-card"
                     : disabled

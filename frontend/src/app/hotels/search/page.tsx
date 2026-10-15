@@ -4,7 +4,7 @@ import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Building2, MapPin, Search as SearchIcon, Star } from "lucide-react";
 import { useHotelSearch } from "@/lib/query/catalog";
-import { Badge, Btn, Card, Container, EmptyState, LoadingState, PageHeader, inputCls } from "@/components/ui";
+import { Badge, Btn, Card, Container, DatePicker, EmptyState, LoadingState, PageHeader, inputCls } from "@/components/ui";
 
 function Search() {
   const params = useSearchParams();
@@ -33,16 +33,16 @@ function Search() {
             <span className="mb-1 block text-xs font-bold tracking-wide text-slate-500 uppercase">City</span>
             <input value={city} onChange={(e) => setCity(e.target.value)} placeholder="City" aria-label="City" className={inputCls} />
           </label>
-          <label className="block">
+          <div className="block">
             <span className="mb-1 block text-xs font-bold tracking-wide text-slate-500 uppercase">Check-in</span>
-            <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} aria-label="Check-in" className={inputCls} />
-          </label>
-          <label className="block">
+            <DatePicker value={checkIn} onChange={setCheckIn} min={new Date().toISOString().slice(0, 10)} ariaLabel="Check-in" />
+          </div>
+          <div className="block">
             <span className="mb-1 block text-xs font-bold tracking-wide text-slate-500 uppercase">Check-out</span>
-            <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} aria-label="Check-out" className={inputCls} />
-          </label>
+            <DatePicker value={checkOut} onChange={setCheckOut} min={checkIn} ariaLabel="Check-out" />
+          </div>
           <div className="flex items-end">
-            <button type="submit" className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700">
+            <button type="submit" className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-brand-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700">
               <SearchIcon className="h-4 w-4" /> Search
             </button>
           </div>
@@ -57,9 +57,19 @@ function Search() {
       <div className="mt-4 grid gap-3">
         {data?.map((h: any) => (
           <Card key={h.id} className="flex flex-wrap items-center gap-4 p-5 transition hover:shadow-pop">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
-              <Building2 className="h-6 w-6" />
-            </span>
+            {h.images?.[0] ? (
+              <img
+                src={h.images[0]}
+                alt={h.name}
+                loading="lazy"
+                onError={(e) => { e.currentTarget.style.display = "none"; }}
+                className="h-16 w-24 shrink-0 rounded-lg bg-brand-50 object-cover"
+              />
+            ) : (
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
+                <Building2 className="h-6 w-6" />
+              </span>
+            )}
             <div className="min-w-52 flex-1">
               <p className="flex flex-wrap items-center gap-2 font-extrabold text-slate-900">
                 {h.name}

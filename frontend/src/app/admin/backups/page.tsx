@@ -49,7 +49,7 @@ export default function AdminBackupsPage() {
             <input placeholder="Before campaign launch…" value={note} onChange={(e) => setNote(e.target.value)} className={inputCls} />
           </Field>
         </div>
-        <button onClick={runBackup} disabled={busy} className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700 disabled:opacity-60">
+        <button onClick={runBackup} disabled={busy} className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700 disabled:opacity-60">
           {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <DatabaseBackup className="h-4 w-4" />}
           {busy ? "Backing up…" : "Back up now"}
         </button>
@@ -101,12 +101,12 @@ export default function AdminBackupsPage() {
                 .then(() => setNotice("Restore started — watch status above."))
                 .catch((e) => setError((e as Error).message))
             }
-            className="cursor-pointer rounded-full bg-red-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-red-700"
+            className="cursor-pointer rounded-lg bg-red-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-red-700"
           >
             Restore
           </button>
         </div>
-        {notice && <p className="mt-2 rounded-2xl bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-800">{notice}</p>}
+        {notice && <p className="mt-2 rounded-lg bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-800">{notice}</p>}
       </Card>
     </div>
   );

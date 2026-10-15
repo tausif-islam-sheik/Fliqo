@@ -62,7 +62,7 @@ function MockPay() {
           {isLoading ? (
             <LoadingState label="Loading session…" />
           ) : (
-            <div className="flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3">
+            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3">
               <span className="text-sm text-slate-500">Amount due</span>
               <b className="text-xl text-brand-700">{bdt(data?.amount ?? 0)}</b>
             </div>
@@ -72,7 +72,7 @@ function MockPay() {
             <button
               onClick={() => pay(true)}
               disabled={busy !== null}
-              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-600 px-4 py-3 text-sm font-extrabold text-white transition hover:bg-brand-700 disabled:opacity-60"
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-brand-700 disabled:opacity-60"
             >
               {busy === "pay" && <Loader2 className="h-4 w-4 animate-spin" />}
               Pay now

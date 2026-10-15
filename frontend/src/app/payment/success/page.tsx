@@ -56,12 +56,12 @@ function Success() {
           <p className="mt-1 text-sm text-brand-100">Your e-ticket is ready below.</p>
         </div>
         <div className="space-y-3 p-6 text-left">
-          <div className="flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3 text-sm">
+          <div className="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3 text-sm">
             <span className="text-slate-500">Booking ref</span>
             <b className="font-mono">{data.bookingRef}</b>
           </div>
           {data.flight && (
-            <div className="flex items-start gap-3 rounded-2xl bg-slate-50 px-4 py-3 text-sm">
+            <div className="flex items-start gap-3 rounded-lg bg-slate-50 px-4 py-3 text-sm">
               <Ticket className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" />
               <div>
                 <p>E-ticket: <b>{data.flight.ticketNumbers.join(", ") || "—"}</b></p>
@@ -69,7 +69,7 @@ function Success() {
               </div>
             </div>
           )}
-          <div className="flex items-center justify-between rounded-2xl bg-brand-50 px-4 py-3 text-sm">
+          <div className="flex items-center justify-between rounded-lg bg-brand-50 px-4 py-3 text-sm">
             <span className="font-semibold text-brand-800">Paid</span>
             <b className="text-lg text-brand-700">{bdt(data.totalAmount)} {data.currency}</b>
           </div>

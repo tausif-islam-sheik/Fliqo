@@ -11,7 +11,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <NuqsAdapter>
       <QueryClientProvider client={client}>
         {children}
-        <Toaster richColors position="top-center" toastOptions={{ className: "!rounded-2xl" }} />
+        <Toaster richColors position="top-center" toastOptions={{ className: "!rounded-lg" }} />
       </QueryClientProvider>
     </NuqsAdapter>
   );

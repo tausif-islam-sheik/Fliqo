@@ -33,7 +33,7 @@ function TwoFAForm() {
 
   return (
     <AuthShell title="Staff verification" subtitle="Enter the 6-digit code emailed to you.">
-      <div className="flex items-center gap-3 rounded-2xl bg-slate-100 p-3 text-sm text-slate-600">
+      <div className="flex items-center gap-3 rounded-lg bg-slate-100 p-3 text-sm text-slate-600">
         <ShieldCheck className="h-5 w-5 shrink-0 text-brand-600" />
         This extra step protects staff accounts.
       </div>
@@ -44,7 +44,7 @@ function TwoFAForm() {
         autoComplete="one-time-code"
         placeholder="123456"
         aria-label="Two-factor code"
-        className="mt-4 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-center text-2xl font-extrabold tracking-[0.5em] text-slate-900 shadow-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none"
+        className="mt-4 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-center text-2xl font-extrabold tracking-[0.5em] text-slate-900 shadow-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none"
       />
       {error && (
         <div className="mt-3">

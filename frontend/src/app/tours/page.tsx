@@ -22,8 +22,18 @@ export default function ToursPage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {data?.map((t: any) => (
           <Card key={t.id} className="flex flex-col overflow-hidden transition hover:-translate-y-0.5 hover:shadow-pop">
-            <div className="gloss flex h-32 items-end bg-gradient-to-br from-brand-800 via-blue-700 to-sky-400 p-4 ring-1 ring-white/20 ring-inset">
-              <div>
+            <div className="relative flex h-32 items-end overflow-hidden bg-gradient-to-br from-brand-800 via-blue-700 to-sky-400 p-4">
+              {t.images?.[0] && (
+                <img
+                  src={t.images[0]}
+                  alt={t.title}
+                  loading="lazy"
+                  onError={(e) => { e.currentTarget.style.display = "none"; }}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-950/70 via-transparent to-transparent" />
+              <div className="relative text-shadow-hero">
                 <p className="flex items-center gap-1.5 text-sm font-bold text-white">
                   <MapPin className="h-4 w-4" /> {t.destination}
                 </p>

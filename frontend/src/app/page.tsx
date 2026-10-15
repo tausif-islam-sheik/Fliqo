@@ -16,21 +16,24 @@ const DESTINATIONS = [
     code: "CXB",
     blurb: "World's longest sea beach",
     href: "/flights/search?from=DAC&to=CXB",
-    gradient: "from-sky-600 via-blue-600 to-brand-800"
+    gradient: "from-sky-600 via-blue-600 to-brand-800",
+    image: "/images/seed/beach.jpg"
   },
   {
     city: "Chittagong",
     code: "CGP",
     blurb: "Port city & hills",
     href: "/flights/search?from=DAC&to=CGP",
-    gradient: "from-brand-600 via-brand-700 to-brand-950"
+    gradient: "from-brand-600 via-brand-700 to-brand-950",
+    image: "/images/seed/palm-beach.jpg"
   },
   {
     city: "Dhaka",
     code: "DAC",
     blurb: "Capital connections",
     href: "/flights/search?from=CGP&to=DAC",
-    gradient: "from-blue-500 via-brand-700 to-brand-950"
+    gradient: "from-blue-500 via-brand-700 to-brand-950",
+    image: "/images/seed/city-night.jpg"
   }
 ];
 
@@ -90,16 +93,25 @@ export default function HomePage() {
             <a
               key={d.code}
               href={d.href}
-              className={`gloss group relative overflow-hidden rounded-3xl bg-gradient-to-br ${d.gradient} p-5 text-white shadow-card ring-1 ring-white/20 ring-inset transition hover:-translate-y-0.5 hover:shadow-pop`}
+              className={`group relative overflow-hidden rounded-lg bg-gradient-to-br ${d.gradient} p-5 text-white shadow-card ring-1 ring-white/20 ring-inset transition hover:-translate-y-0.5 hover:shadow-pop`}
             >
-              <p className="text-4xl font-black tracking-tight opacity-90">{d.code}</p>
-              <p className="mt-1 flex items-center gap-1.5 font-extrabold">
-                <MapPin className="h-4 w-4" /> {d.city}
-              </p>
-              <p className="mt-0.5 text-sm text-white/85">{d.blurb}</p>
-              <span className="mt-3 inline-flex items-center gap-1 text-sm font-bold">
-                Find flights <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </span>
+              <img
+                src={d.image}
+                alt={d.city}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/20 to-transparent" />
+              <div className="relative text-shadow-hero">
+                <p className="text-4xl font-black tracking-tight opacity-90">{d.code}</p>
+                <p className="mt-1 flex items-center gap-1.5 font-extrabold">
+                  <MapPin className="h-4 w-4" /> {d.city}
+                </p>
+                <p className="mt-0.5 text-sm text-white/85">{d.blurb}</p>
+                <span className="mt-3 inline-flex items-center gap-1 text-sm font-bold">
+                  Find flights <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                </span>
+              </div>
             </a>
           ))}
         </div>
@@ -121,8 +133,8 @@ export default function HomePage() {
           </h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {WHY.map((w) => (
-              <div key={w.title} className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-600 text-white">
+              <div key={w.title} className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-600 text-white">
                   <w.icon className="h-5 w-5" />
                 </span>
                 <p className="mt-3 font-extrabold text-slate-900">{w.title}</p>

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Search } from "lucide-react";
-import { btnCls, inputCls } from "@/components/ui";
+import { DatePicker, btnCls } from "@/components/ui";
 import {
   Select,
   SelectContent,
@@ -63,10 +63,10 @@ export function FlightSearchForm({ initial }: { initial?: { from?: string; to?: 
           </SelectContent>
         </Select>
       </div>
-      <label className="block">
+      <div className="block">
         <span className="mb-1 block text-xs font-bold tracking-wide text-slate-500 uppercase">Date</span>
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} aria-label="Date" className={inputCls} />
-      </label>
+        <DatePicker value={date} onChange={setDate} min={new Date().toISOString().slice(0, 10)} ariaLabel="Date" />
+      </div>
       <div>
         <span className="mb-1 block text-xs font-bold tracking-wide text-slate-500 uppercase">Passengers</span>
         <Select value={String(adt)} onValueChange={(v) => setAdt(Number(v))}>

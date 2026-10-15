@@ -114,11 +114,11 @@ function BookingForm() {
             <p className="mt-1 text-sm text-brand-100">Complete payment before the hold expires.</p>
           </div>
           <div className="space-y-3 p-6">
-            <div className="flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3 text-sm">
+            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3 text-sm">
               <span className="text-slate-500">Booking ref</span>
               <b className="font-mono text-slate-900">{done.bookingRef}</b>
             </div>
-            <div className="flex items-center justify-between rounded-2xl bg-amber-50 px-4 py-3 text-sm">
+            <div className="flex items-center justify-between rounded-lg bg-amber-50 px-4 py-3 text-sm">
               <span className="flex items-center gap-1.5 font-semibold text-amber-800">
                 <Timer className="h-4 w-4" /> Pay before hold expires
               </span>
@@ -126,7 +126,7 @@ function BookingForm() {
             </div>
             <p className="text-3xl font-black tracking-tight text-brand-700">{bdt(done.totalAmount)}</p>
             {error && <Alert tone="red">{error}</Alert>}
-            <button onClick={payNow} disabled={busy} className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-gold-400 px-6 py-3.5 text-base font-extrabold text-brand-950 transition hover:bg-gold-300 disabled:opacity-60">
+            <button onClick={payNow} disabled={busy} className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-gold-400 px-6 py-3.5 text-base font-bold text-brand-950 transition hover:bg-gold-500 disabled:opacity-60">
               {busy ? <Loader2 className="h-5 w-5 animate-spin" /> : <CreditCard className="h-5 w-5" />}
               {busy ? "Redirecting…" : "Pay now · card / bKash / Nagad"}
             </button>
@@ -143,7 +143,7 @@ function BookingForm() {
     <Container className="max-w-3xl py-10">
       <PageHeader eyebrow="Checkout" title="Review & book" />
       <Card className="flex flex-wrap items-center gap-x-6 gap-y-2 border-brand-200 bg-brand-50 p-5">
-        <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-600 text-white">
+        <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-600 text-white">
           <Plane className="h-5 w-5" />
         </span>
         <div>
@@ -161,7 +161,7 @@ function BookingForm() {
       <form onSubmit={submit} className="mt-5">
         <Card className="space-y-5 p-5 sm:p-6">
           {passengers.map((p, i) => (
-            <fieldset key={i} className="rounded-2xl border border-slate-200 p-4">
+            <fieldset key={i} className="rounded-lg border border-slate-200 p-4">
               <legend className="px-1 text-sm font-bold text-slate-700">Passenger {i + 1}</legend>
               <div className="grid gap-3 sm:grid-cols-2">
                 <input
@@ -192,7 +192,7 @@ function BookingForm() {
             </Field>
           </div>
           {error && <Alert tone="red">{error}</Alert>}
-          <button type="submit" disabled={busy} className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-600 px-6 py-3.5 text-base font-extrabold text-white transition hover:bg-brand-700 disabled:opacity-60">
+          <button type="submit" disabled={busy} className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-brand-600 px-6 py-3.5 text-base font-bold text-white transition hover:bg-brand-700 disabled:opacity-60">
             {busy ? <Loader2 className="h-5 w-5 animate-spin" /> : <CheckCircle2 className="h-5 w-5" />}
             {busy ? "Holding seat…" : `Hold seat · ${bdt(total)}`}
           </button>

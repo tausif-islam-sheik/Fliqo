@@ -100,7 +100,7 @@ function Results() {
         <div className="mt-4 space-y-3">
           <LoadingState label="Searching live fares…" />
           {[0, 1, 2].map((i) => (
-            <div key={i} className="h-28 animate-pulse rounded-3xl border border-slate-200 bg-white" />
+            <div key={i} className="h-28 animate-pulse rounded-lg border border-slate-200 bg-white" />
           ))}
         </div>
       )}
@@ -212,7 +212,7 @@ function Results() {
               <Card key={o.id} className="p-4 transition hover:shadow-pop sm:p-5">
                 <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
                   <div className="flex min-w-44 items-center gap-3">
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
                       <Plane className="h-5 w-5" />
                     </span>
                     <div>

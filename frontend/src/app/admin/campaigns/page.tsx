@@ -37,7 +37,7 @@ export default function AdminCampaignsPage() {
             <Field label="HTML body">
               <textarea value={html} onChange={(e) => setHtml(e.target.value)} rows={5} className={`${textareaCls} font-mono text-xs`} />
             </Field>
-            <button onClick={create} disabled={!name || !subject} className="cursor-pointer rounded-full bg-brand-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700 disabled:opacity-60">
+            <button onClick={create} disabled={!name || !subject} className="cursor-pointer rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700 disabled:opacity-60">
               Create draft
             </button>
           </div>
@@ -67,7 +67,7 @@ export default function AdminCampaignsPage() {
                     <div className="flex gap-1.5">
                       <button
                         onClick={() => api(`/campaigns/${c.id}/start`, { method: "POST", body: "{}" }).then(() => refetch())}
-                        className="inline-flex cursor-pointer items-center gap-1 rounded-full bg-brand-600 px-2.5 py-1.5 text-xs font-bold text-white hover:bg-brand-700"
+                        className="inline-flex cursor-pointer items-center gap-1 rounded-lg bg-brand-600 px-2.5 py-1.5 text-xs font-bold text-white hover:bg-brand-700"
                       >
                         <Play className="h-3 w-3" /> Start
                       </button>
@@ -102,7 +102,7 @@ export default function AdminCampaignsPage() {
               <Send className="h-4 w-4" /> Send test (latest)
             </button>
           </Card>
-          {notice && <p className="mt-2 rounded-2xl bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-800">{notice}</p>}
+          {notice && <p className="mt-2 rounded-lg bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-800">{notice}</p>}
         </div>
       </div>
     </div>

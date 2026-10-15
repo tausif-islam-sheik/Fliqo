@@ -31,7 +31,7 @@ export default function AdminContentPage() {
     <div className="max-w-3xl">
       <PageHeader eyebrow="CMS" title="Content" subtitle="Offers, blog posts and CMS pages go live instantly." />
       {(saved || error) && (
-        <div className={`mb-4 rounded-2xl border px-4 py-3 text-sm ${error ? "border-red-200 bg-red-50 text-red-800" : "border-emerald-200 bg-emerald-50 text-emerald-800"}`}>
+        <div className={`mb-4 rounded-lg border px-4 py-3 text-sm ${error ? "border-red-200 bg-red-50 text-red-800" : "border-emerald-200 bg-emerald-50 text-emerald-800"}`}>
           {error ?? (
             <span className="flex items-center gap-1.5 font-bold"><CheckCircle2 className="h-4 w-4" /> {saved} saved.</span>
           )}
@@ -43,7 +43,7 @@ export default function AdminContentPage() {
         <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
           <input placeholder="slug" aria-label="Offer slug" value={offer.slug} onChange={(e) => setOffer({ ...offer, slug: e.target.value })} className={inputCls} />
           <input placeholder="Title" aria-label="Offer title" value={offer.title} onChange={(e) => setOffer({ ...offer, title: e.target.value })} className={inputCls} />
-          <button onClick={() => save("/admin/offers", offer, "Offer")} className="cursor-pointer rounded-full bg-brand-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700">
+          <button onClick={() => save("/admin/offers", offer, "Offer")} className="cursor-pointer rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700">
             Save
           </button>
         </div>
@@ -59,7 +59,7 @@ export default function AdminContentPage() {
           <Field label="Excerpt"><input placeholder="One-line summary" value={post.excerpt} onChange={(e) => setPost({ ...post, excerpt: e.target.value })} className={inputCls} /></Field>
           <Field label="Content"><textarea rows={5} value={post.content} onChange={(e) => setPost({ ...post, content: e.target.value })} className={textareaCls} /></Field>
           <div>
-            <button onClick={() => save("/admin/blog", post, "Blog post")} className="cursor-pointer rounded-full bg-brand-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700">
+            <button onClick={() => save("/admin/blog", post, "Blog post")} className="cursor-pointer rounded-lg bg-brand-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700">
               Publish
             </button>
           </div>
@@ -75,7 +75,7 @@ export default function AdminContentPage() {
           </div>
           <Field label="Content"><textarea rows={5} value={page.content} onChange={(e) => setPage({ ...page, content: e.target.value })} className={textareaCls} /></Field>
           <div className="flex items-center gap-2">
-            <button onClick={() => save("/admin/pages", page, "CMS page")} className="cursor-pointer rounded-full bg-brand-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700">
+            <button onClick={() => save("/admin/pages", page, "CMS page")} className="cursor-pointer rounded-lg bg-brand-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700">
               Save page
             </button>
             <span className="flex items-center gap-1 text-xs text-slate-400"><FileText className="h-3.5 w-3.5" /> Renders at /faq &amp; friends</span>

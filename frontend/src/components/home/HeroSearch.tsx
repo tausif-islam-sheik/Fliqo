@@ -25,7 +25,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { btnCls } from "@/components/ui";
+import { btnCls, Calendar, parseISODate, toISODate } from "@/components/ui";
 
 const TABS = [
   { id: "flights", label: "Flight", icon: PlaneTakeoff },
@@ -48,7 +48,7 @@ const STATIC_AIRPORTS = [
 
 const CITIES = ["Cox's Bazar", "Dhaka", "Chittagong", "Sylhet", "Bandarban"];
 const GOLD_SEARCH =
-  "gloss pointer-events-auto cursor-pointer rounded-full bg-gradient-to-b from-gold-300 via-gold-400 to-gold-600 px-14 py-4 text-lg font-black whitespace-nowrap text-brand-950 shadow-[0_10px_24px_-8px_rgb(245_163_1/0.8),inset_0_1px_0_rgb(255_255_255/0.5)] transition hover:from-gold-200 hover:via-gold-400 hover:to-gold-600 disabled:opacity-60";
+  "pointer-events-auto cursor-pointer rounded-lg bg-gold-400 px-14 py-4 text-lg font-bold whitespace-nowrap text-brand-950 shadow-sm transition-colors hover:bg-gold-500 active:bg-gold-600 disabled:opacity-60";
 
 function todayIso() {
   return new Date().toISOString().slice(0, 10);
@@ -120,7 +120,7 @@ function AirportPicker({
         }}
         aria-haspopup="listbox"
         aria-expanded={open}
-        className="w-full rounded-2xl border border-slate-200 bg-white p-4 text-left transition hover:border-brand-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none"
+        className="w-full rounded-lg border border-slate-200 bg-white p-4 text-left transition hover:border-brand-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none"
       >
         <span className="block text-[11px] font-bold tracking-wider text-slate-500">{label}</span>
         <span className="mt-0.5 block truncate text-xl font-extrabold text-brand-950">{current.city}</span>
@@ -131,7 +131,7 @@ function AirportPicker({
       {open && (
         <>
           <div className="fixed inset-0 z-20 cursor-default" onClick={() => setOpen(false)} />
-          <div className="absolute z-30 mt-2 max-h-96 w-full min-w-72 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-pop">
+          <div className="absolute z-30 mt-2 max-h-96 w-full min-w-72 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-pop">
             <div className="flex items-center gap-2 border-b border-slate-100 p-3">
               <Search className="h-4 w-4 shrink-0 text-slate-400" />
               <input
@@ -160,7 +160,7 @@ function AirportPicker({
                     setOpen(false);
                   }}
                   className={cn(
-                    "flex w-full cursor-pointer items-center justify-between gap-3 rounded-xl p-2.5 text-left transition",
+                    "flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg p-2.5 text-left transition",
                     a.code === value ? "bg-brand-50" : "hover:bg-slate-50"
                   )}
                 >
@@ -201,7 +201,7 @@ function DateBox({
   const f = value ? fmtDay(value) : { main: "Select date", sub: "" };
 
   return (
-    <div className="relative rounded-2xl border border-slate-200 bg-white p-4 transition focus-within:border-brand-400">
+    <div className="relative rounded-lg border border-slate-200 bg-white p-4 transition focus-within:border-brand-400">
       <p className="text-[11px] font-bold tracking-wider text-slate-500">{label}</p>
       <p className="mt-0.5 text-xl font-extrabold text-brand-950">{f.main}</p>
       <p className="min-h-4 text-xs text-slate-500">{f.sub}</p>
@@ -215,32 +215,42 @@ function DateBox({
           <X className="h-3.5 w-3.5" />
         </button>
       )}
-      {picker ? (
+      <button
+        type="button"
+        aria-label={label}
+        onClick={() => setOpen((v) => !v)}
+        className="absolute inset-0 cursor-pointer rounded-lg focus:ring-2 focus:ring-brand-200 focus:outline-none"
+      />
+      {open && (
         <>
-          <button
-            type="button"
-            aria-label={label}
-            onClick={() => setOpen((v) => !v)}
-            className="absolute inset-0 cursor-pointer rounded-2xl focus:ring-2 focus:ring-brand-200 focus:outline-none"
-          />
-          {open && (
-            <>
-              <div className="fixed inset-0 z-20 cursor-default" onClick={close} />
-              <div className="absolute top-full left-1/2 z-30 mt-2 w-[42rem] max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-3xl border border-slate-200 bg-white p-4 shadow-pop sm:p-5">
-                {picker(close, value)}
-              </div>
-            </>
-          )}
+          <div className="fixed inset-0 z-20 cursor-default" onClick={close} />
+          <div
+            className={cn(
+              "absolute top-full left-1/2 z-30 mt-2 max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-lg border border-slate-200 bg-white shadow-pop",
+              picker ? "w-[42rem] p-4 sm:p-5" : "w-fit p-2"
+            )}
+          >
+            {picker ? (
+              picker(close, value)
+            ) : (
+                  <Calendar
+                    mode="single"
+                    selected={parseISODate(value)}
+                    defaultMonth={parseISODate(value) ?? parseISODate(min) ?? new Date()}
+                    captionLayout="dropdown"
+                    startMonth={parseISODate(min) ?? new Date()}
+                    endMonth={new Date(new Date().getFullYear() + 2, 11, 31)}
+                    onSelect={(d) => {
+                      if (d) {
+                        onChange(toISODate(d));
+                        close();
+                      }
+                    }}
+                    disabled={min && parseISODate(min) ? [{ before: parseISODate(min)! }] : undefined}
+                  />
+            )}
+          </div>
         </>
-      ) : (
-        <input
-          type="date"
-          value={value}
-          min={min}
-          onChange={(e) => e.target.value && onChange(e.target.value)}
-          aria-label={label}
-          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-        />
       )}
     </div>
   );
@@ -320,7 +330,7 @@ function TravelerBox({
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="dialog"
         aria-expanded={open}
-        className="w-full rounded-2xl border border-slate-200 bg-white p-4 text-left transition hover:border-brand-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none"
+        className="w-full rounded-lg border border-slate-200 bg-white p-4 text-left transition hover:border-brand-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none"
       >
         <span className="block text-[11px] font-bold tracking-wider text-slate-500">TRAVELER, CLASS</span>
         <span className="mt-0.5 block text-xl font-extrabold text-brand-950">
@@ -331,7 +341,7 @@ function TravelerBox({
       {open && (
         <>
           <div className="fixed inset-0 z-20 cursor-default" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 z-30 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-4 shadow-pop">
+          <div className="absolute right-0 z-30 mt-2 w-72 rounded-lg border border-slate-200 bg-white p-4 shadow-pop">
             <Stepper label="Adults" hint="12 years and above" value={adt} min={1} max={6} onChange={setAdt} />
             <Stepper label="Children" hint="2–11 years" value={chd} min={0} max={6} onChange={setChd} />
             <Stepper label="Infant" hint="Below 2 years" value={inf} min={0} max={6} onChange={setInf} />
@@ -361,7 +371,7 @@ function TravelerBox({
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="mt-4 w-full cursor-pointer rounded-xl bg-gold-400 py-2.5 text-base font-black text-brand-950 shadow-sm transition hover:bg-gold-300"
+              className="mt-4 w-full cursor-pointer rounded-lg bg-gold-400 py-2.5 text-base font-bold text-brand-950 shadow-sm transition-colors hover:bg-gold-500"
             >
               Done
             </button>
@@ -499,7 +509,7 @@ function FlightsWidget() {
             )}
           />
         ) : (
-          <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
+          <div className="rounded-lg border border-slate-200 bg-slate-50/60 p-4">
             <p className="text-[11px] font-bold tracking-wider text-slate-500">RETURN DATE</p>
             <p className="mt-0.5 text-sm leading-snug text-slate-400">Save more on return flight</p>
           </div>
@@ -539,7 +549,7 @@ function HotelsWidget() {
   return (
     <form onSubmit={submit}>
       <div className="grid gap-3 sm:grid-cols-3">
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <div className="rounded-lg border border-slate-200 bg-white p-4">
           <p className="text-[11px] font-bold tracking-wider text-slate-500">CITY</p>
           <Select value={city} onValueChange={setCity}>
             <SelectTrigger
@@ -577,12 +587,12 @@ export function HeroSearch() {
   return (
     <Tabs value={tab} onValueChange={(v) => setTab(v as TabId)}>
       <div className="relative z-10 mx-auto -mb-7 w-fit max-w-full px-4">
-        <TabsList className="rounded-2xl border border-slate-200 bg-white p-2 shadow-pop">
+        <TabsList className="rounded-lg border border-slate-200 bg-white p-2 shadow-pop">
           {TABS.map((t) => (
             <TabsTrigger
               key={t.id}
               value={t.id}
-              className="rounded-xl px-4 data-[state=active]:border-b-[3px] data-[state=active]:border-b-gold-400 data-[state=active]:bg-none data-[state=active]:text-brand-900 data-[state=active]:shadow-none data-[state=inactive]:hover:bg-slate-100 sm:px-6"
+              className="rounded-lg px-4 data-[state=active]:border-b-[3px] data-[state=active]:border-b-gold-400 data-[state=active]:bg-none data-[state=active]:text-brand-900 data-[state=active]:shadow-none data-[state=inactive]:hover:bg-slate-100 sm:px-6"
             >
               <t.icon /> {t.label}
             </TabsTrigger>
@@ -590,7 +600,7 @@ export function HeroSearch() {
         </TabsList>
       </div>
 
-      <div className="relative rounded-3xl bg-white px-4 pt-14 pb-16 shadow-pop sm:px-6">
+      <div className="relative rounded-lg bg-white px-4 pt-14 pb-16 shadow-pop sm:px-6">
         <TabsContent value="flights" className="p-0 sm:p-0">
           <FlightsWidget />
         </TabsContent>

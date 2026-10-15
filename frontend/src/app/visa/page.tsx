@@ -23,7 +23,7 @@ export default function VisaPage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {data?.map((c: any) => (
           <Card key={c.code} className="flex flex-col p-5 transition hover:-translate-y-0.5 hover:shadow-pop">
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
+            <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
               <Stamp className="h-5 w-5" />
             </span>
             <p className="mt-3 text-lg font-extrabold text-slate-900">{c.name}</p>
@@ -37,7 +37,7 @@ export default function VisaPage() {
           </Card>
         ))}
       </div>
-      <p className="mt-6 rounded-2xl bg-slate-100 p-4 text-center text-sm text-slate-600">
+      <p className="mt-6 rounded-lg bg-slate-100 p-4 text-center text-sm text-slate-600">
         Applied already? Track with your booking ref:{" "}
         <a href="/visa/track" className="font-bold text-brand-700 hover:underline">track application</a>
       </p>

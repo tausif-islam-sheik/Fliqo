@@ -31,7 +31,7 @@ export default function AdminStaffPage() {
   return (
     <div>
       <PageHeader eyebrow="Team" title="Staff" subtitle="Roles, invites and access control." />
-      {notice && <p className="mb-3 rounded-2xl bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-800">{notice}</p>}
+      {notice && <p className="mb-3 rounded-lg bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-800">{notice}</p>}
 
       <Card className="p-5">
         <h3 className="flex items-center gap-2 font-extrabold text-slate-900"><UserPlus className="h-4 w-4 text-brand-600" /> Invite staff</h3>
@@ -52,7 +52,7 @@ export default function AdminStaffPage() {
           <button
             onClick={sendInvite}
             disabled={!invite.email || !invite.roleId}
-            className="cursor-pointer rounded-full bg-brand-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700 disabled:opacity-60"
+            className="cursor-pointer rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700 disabled:opacity-60"
           >
             Invite
           </button>
@@ -108,7 +108,7 @@ export default function AdminStaffPage() {
           <h3 className="flex items-center gap-2 font-extrabold text-slate-900"><KeyRound className="h-4 w-4 text-brand-600" /> Roles & permissions</h3>
           <div className="mt-3 space-y-2">
             {(roles.data ?? []).map((r: any) => (
-              <div key={r.id} className="rounded-2xl bg-slate-50 p-3">
+              <div key={r.id} className="rounded-lg bg-slate-50 p-3">
                 <p className="text-sm font-extrabold text-slate-900">{r.name}</p>
                 <div className="mt-1.5 flex flex-wrap gap-1">
                   {(r.permissions ?? []).map((p: any) => (

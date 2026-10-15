@@ -51,7 +51,7 @@ export default function AccountPage() {
       />
       <div className="grid gap-4 sm:grid-cols-3">
         <Card className="flex items-center gap-3 p-5">
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
+          <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
             <User className="h-5 w-5" />
           </span>
           <div>
@@ -60,7 +60,7 @@ export default function AccountPage() {
           </div>
         </Card>
         <Card className="flex items-center gap-3 p-5">
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
+          <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
             <Mail className="h-5 w-5" />
           </span>
           <div>
@@ -75,7 +75,7 @@ export default function AccountPage() {
           </div>
         </Card>
         <Card className="flex items-center gap-3 p-5">
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
+          <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
             <Ticket className="h-5 w-5" />
           </span>
           <div>

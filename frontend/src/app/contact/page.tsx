@@ -34,15 +34,15 @@ export default function ContactPage() {
       <PageHeader eyebrow="Support" title="Contact & support" subtitle="Real humans, 9am–11pm Asia/Dhaka, every day." />
       <div className="grid gap-4 sm:grid-cols-3">
         <Card className="flex items-center gap-3 p-4">
-          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-50 text-brand-700"><Phone className="h-5 w-5" /></span>
+          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-700"><Phone className="h-5 w-5" /></span>
           <div><p className="text-xs font-semibold text-slate-400 uppercase">Hotline</p><p className="font-extrabold">09638-XXXXXX</p></div>
         </Card>
         <Card className="flex items-center gap-3 p-4">
-          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-50 text-brand-700"><Mail className="h-5 w-5" /></span>
+          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-700"><Mail className="h-5 w-5" /></span>
           <div><p className="text-xs font-semibold text-slate-400 uppercase">Email</p><p className="font-extrabold">support@fliqo.com</p></div>
         </Card>
         <Card className="flex items-center gap-3 p-4">
-          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-50 text-brand-700"><Clock className="h-5 w-5" /></span>
+          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-700"><Clock className="h-5 w-5" /></span>
           <div><p className="text-xs font-semibold text-slate-400 uppercase">Hours</p><p className="font-extrabold">9am – 11pm</p></div>
         </Card>
       </div>
@@ -53,7 +53,7 @@ export default function ContactPage() {
             <MessageSquare className="h-5 w-5 text-brand-600" /> Send a message
           </h2>
           {sent ? (
-            <div className="mt-4 rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-800">
+            <div className="mt-4 rounded-lg bg-emerald-50 p-4 text-sm text-emerald-800">
               <p className="flex items-center gap-2 font-bold"><CheckCircle2 className="h-4 w-4" /> Thanks!</p>
               <p className="mt-1">Support will reply by email.</p>
             </div>
@@ -71,7 +71,7 @@ export default function ContactPage() {
               <Field label="How can we help?">
                 <textarea placeholder="Tell us about your trip or booking…" value={message} onChange={(e) => setMessage(e.target.value)} rows={4} className={textareaCls} required />
               </Field>
-              <button type="submit" className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700">
+              <button type="submit" className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700">
                 <Send className="h-4 w-4" /> Send
               </button>
             </form>
@@ -82,7 +82,7 @@ export default function ContactPage() {
           <h2 className="font-extrabold">Deals by email</h2>
           <p className="mt-1 text-sm text-brand-200">Flash fares and members-only coupons. No spam, unsubscribe anytime.</p>
           {subbed ? (
-            <p className="mt-4 flex items-center gap-2 rounded-2xl bg-white/10 p-3 text-sm font-bold">
+            <p className="mt-4 flex items-center gap-2 rounded-lg bg-white/10 p-3 text-sm font-bold">
               <CheckCircle2 className="h-4 w-4 text-emerald-300" /> Subscribed — welcome aboard!
             </p>
           ) : (
@@ -99,7 +99,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={subBusy}
-                className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full bg-gold-400 px-4 py-2.5 text-sm font-extrabold text-brand-950 transition hover:bg-gold-300 disabled:opacity-60"
+                className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-gold-400 px-4 py-2.5 text-sm font-bold text-brand-950 transition hover:bg-gold-500 disabled:opacity-60"
               >
                 {subBusy && <Loader2 className="h-4 w-4 animate-spin" />} Subscribe
               </button>

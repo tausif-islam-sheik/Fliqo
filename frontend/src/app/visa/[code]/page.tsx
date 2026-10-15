@@ -48,8 +48,8 @@ export default function VisaCountryPage() {
       <button onClick={() => router.back()} className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-700 hover:underline">
         <ArrowLeft className="h-4 w-4" /> All countries
       </button>
-      <div className="gloss mt-3 flex flex-wrap items-center gap-4 rounded-3xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 p-6 text-white ring-1 ring-white/20 ring-inset sm:p-8">
-        <span className="flex h-14 w-14 items-center justify-center rounded-3xl bg-white/15 ring-1 ring-white/20 ring-inset">
+      <div className="gloss mt-3 flex flex-wrap items-center gap-4 rounded-lg bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 p-6 text-white ring-1 ring-white/20 ring-inset sm:p-8">
+        <span className="flex h-14 w-14 items-center justify-center rounded-lg bg-white/15 ring-1 ring-white/20 ring-inset">
           <Stamp className="h-7 w-7" />
         </span>
         <div>
@@ -75,11 +75,11 @@ export default function VisaCountryPage() {
               ))}
             </ul>
           ) : (
-            <pre className="scroll-slim mt-3 overflow-x-auto rounded-2xl bg-slate-50 p-3 text-xs text-slate-600">
+            <pre className="scroll-slim mt-3 overflow-x-auto rounded-lg bg-slate-50 p-3 text-xs text-slate-600">
               {JSON.stringify(c.requirements, null, 2)}
             </pre>
           )}
-          {notes && <p className="mt-3 rounded-2xl bg-brand-50 p-3 text-sm text-brand-800">{notes}</p>}
+          {notes && <p className="mt-3 rounded-lg bg-brand-50 p-3 text-sm text-brand-800">{notes}</p>}
         </Card>
 
         <Card className="p-5 sm:p-6">

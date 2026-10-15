@@ -71,21 +71,32 @@ export default function HotelDetailsPage() {
       <button onClick={() => router.back()} className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-700 hover:underline">
         <ArrowLeft className="h-4 w-4" /> Back to results
       </button>
-      <div className="gloss mt-3 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-800 via-blue-800 to-blue-500 p-6 text-white ring-1 ring-white/20 ring-inset sm:p-8">
-        <div className="flex flex-wrap items-center gap-2">
-          <h1 className="text-2xl font-black tracking-tight sm:text-3xl">{hotel.name}</h1>
-          {hotel.featured && <Badge tone="amber"><Star className="h-3 w-3" /> Featured</Badge>}
-        </div>
-        <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-brand-100">
-          <span className="text-gold-400">{"★".repeat(hotel.stars)}</span>
-          <span className="flex items-center gap-1"><MapPin className="h-4 w-4" /> {hotel.city}</span>
-        </p>
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {(hotel.amenities ?? []).map((a: string) => (
-            <span key={a} className="rounded-full bg-white/15 px-2.5 py-1 text-xs font-semibold ring-1 ring-white/20 ring-inset">
-              {a}
-            </span>
-          ))}
+      <div className="relative mt-3 overflow-hidden rounded-lg bg-gradient-to-br from-brand-800 via-blue-800 to-blue-500 p-6 text-white ring-1 ring-white/20 ring-inset sm:p-8">
+        {hotel.images?.[0] && (
+          <img
+            src={hotel.images[0]}
+            alt={hotel.name}
+            onError={(e) => { e.currentTarget.style.display = "none"; }}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/30 to-transparent" />
+        <div className="relative text-shadow-hero">
+          <div className="flex flex-wrap items-center gap-2">
+            <h1 className="text-2xl font-black tracking-tight sm:text-3xl">{hotel.name}</h1>
+            {hotel.featured && <Badge tone="amber"><Star className="h-3 w-3" /> Featured</Badge>}
+          </div>
+          <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-brand-100">
+            <span className="text-gold-400">{"★".repeat(hotel.stars)}</span>
+            <span className="flex items-center gap-1"><MapPin className="h-4 w-4" /> {hotel.city}</span>
+          </p>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {(hotel.amenities ?? []).map((a: string) => (
+              <span key={a} className="rounded-full bg-white/15 px-2.5 py-1 text-xs font-semibold ring-1 ring-white/20 ring-inset">
+                {a}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -95,7 +106,7 @@ export default function HotelDetailsPage() {
           <div className="grid gap-3">
             {rooms.map((r: any) => (
               <Card key={r.id} className="flex flex-wrap items-center gap-3 p-4">
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
+                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
                   <BedDouble className="h-5 w-5" />
                 </span>
                 <div className="min-w-40 flex-1">

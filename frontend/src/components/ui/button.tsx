@@ -4,21 +4,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden font-semibold whitespace-nowrap transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 disabled:pointer-events-none disabled:opacity-60 [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 active:translate-y-px disabled:pointer-events-none disabled:opacity-60 [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default:
-          "gloss rounded-full bg-gradient-to-b from-brand-500 via-brand-600 to-brand-800 text-white shadow-[0_6px_16px_-6px_rgb(13_26_51/0.6),inset_0_1px_0_rgb(255_255_255/0.25)] hover:from-brand-400 hover:via-brand-600 hover:to-brand-800",
-        accent:
-          "gloss rounded-full bg-gradient-to-b from-gold-300 via-gold-400 to-gold-600 text-brand-950 shadow-[0_6px_16px_-6px_rgb(245_163_1/0.7),inset_0_1px_0_rgb(255_255_255/0.5)] hover:from-gold-200 hover:via-gold-400 hover:to-gold-600",
-        destructive:
-          "rounded-full bg-gradient-to-b from-red-500 to-red-700 text-white shadow-sm hover:from-red-400 hover:to-red-700",
+        default: "bg-brand-700 text-white shadow-sm hover:bg-brand-800 active:bg-brand-900",
+        accent: "bg-gold-400 text-brand-950 shadow-sm hover:bg-gold-500 active:bg-gold-600",
+        destructive: "bg-red-600 text-white shadow-sm hover:bg-red-700 active:bg-red-800",
         outline:
-          "rounded-full border border-slate-300 bg-white text-slate-700 shadow-sm hover:border-brand-400 hover:text-brand-700",
-        secondary: "rounded-full bg-slate-100 text-slate-800 hover:bg-slate-200",
-        ghost: "rounded-full text-brand-700 hover:bg-brand-50",
-        link: "rounded-full text-brand-700 underline-offset-4 hover:underline"
+          "border border-slate-300 bg-white text-slate-700 shadow-sm hover:border-slate-400 hover:bg-slate-50 active:bg-slate-100",
+        secondary: "bg-slate-900 text-white shadow-sm hover:bg-slate-800 active:bg-slate-950",
+        ghost: "text-brand-700 hover:bg-brand-50 active:bg-brand-100",
+        link: "text-brand-700 underline-offset-4 hover:underline"
       },
       size: {
         sm: "h-8 px-3 text-xs",

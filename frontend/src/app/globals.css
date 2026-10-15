@@ -40,6 +40,7 @@
 @theme {
   --font-sans: "Gilroy", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-display: "Outfit", "Gilroy", ui-sans-serif, system-ui, sans-serif;
 
   /* Fliqo brand — glossy navy blue */
   --color-brand-50: #eef3fb;
@@ -128,6 +129,13 @@ body {
   background: rgb(255 255 255 / 0.1);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+}
+
+/* Readable text over photo backgrounds */
+@utility text-shadow-hero {
+  text-shadow:
+    0 1px 2px rgb(0 0 0 / 0.75),
+    0 2px 12px rgb(0 0 0 / 0.55);
 }
 
 /* Slim, tinted scrollbars for horizontal scrollers */

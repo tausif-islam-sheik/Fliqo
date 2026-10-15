@@ -24,7 +24,7 @@ export default function AdminUsersPage() {
         className="flex gap-2"
       >
         <input placeholder="Search email / name" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search users" className={inputCls} />
-        <button type="submit" className="inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700">
+        <button type="submit" className="inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700">
           <Search className="h-4 w-4" /> Search
         </button>
       </form>

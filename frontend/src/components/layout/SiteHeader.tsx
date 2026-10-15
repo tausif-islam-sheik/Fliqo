@@ -61,10 +61,7 @@ export function SiteHeader() {
       <div className="border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
         <Container className="flex h-16 items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2" aria-label="Fliqo home">
-            <span className="gloss flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand-400 via-brand-600 to-brand-900 text-lg font-black text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.35)]">
-              F
-            </span>
-            <span className="text-xl font-black tracking-tight text-brand-950">
+            <span className="font-display text-2xl font-extrabold tracking-tight text-brand-950">
               Fliqo
               <span className="text-gold-500">.</span>
             </span>
@@ -78,7 +75,7 @@ export function SiteHeader() {
                   key={item.href}
                   href={item.href}
                   className={cx(
-                    "flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold transition",
+                    "flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition-colors",
                     active ? "bg-brand-50 text-brand-700" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                   )}
                 >
@@ -92,13 +89,13 @@ export function SiteHeader() {
           <div className="hidden items-center gap-2 lg:flex">
             <Link
               href="/login"
-              className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-400 hover:text-brand-700"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:bg-slate-50"
             >
               <LogIn className="h-4 w-4" /> Log in
             </Link>
             <Link
               href="/signup"
-              className="inline-flex items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-brand-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-800"
             >
               Sign up
             </Link>
@@ -107,7 +104,7 @@ export function SiteHeader() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-slate-700 lg:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-700 shadow-sm lg:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -123,7 +120,7 @@ export function SiteHeader() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="flex items-center gap-2.5 rounded-full px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-brand-50 hover:text-brand-700"
+                  className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-900"
                 >
                   <item.icon className="h-4 w-4" /> {item.label}
                 </Link>
@@ -132,14 +129,14 @@ export function SiteHeader() {
                 <Link
                   href="/login"
                   onClick={() => setOpen(false)}
-                  className="flex-1 rounded-full border border-slate-300 px-4 py-2.5 text-center text-sm font-semibold text-slate-700"
+                  className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-center text-sm font-semibold text-slate-700 shadow-sm"
                 >
                   Log in
                 </Link>
                 <Link
                   href="/signup"
                   onClick={() => setOpen(false)}
-                  className="flex-1 rounded-full bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white"
+                  className="flex-1 rounded-lg bg-brand-700 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm"
                 >
                   Sign up
                 </Link>

@@ -155,17 +155,20 @@ export function Btn({
 }
 
 export { Button, buttonVariants };
+export { Calendar } from "./ui/calendar";
+export { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
+export { DatePicker, toISODate, parseISODate, formatISODate } from "./ui/date-picker";
 
 /* ----------------------------------- forms ---------------------------------- */
 
 export const inputCls =
-  "flex h-11 w-full rounded-2xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60";
+  "flex h-11 w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60";
 
 export const selectCls =
-  "flex h-11 w-full cursor-pointer items-center rounded-2xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 shadow-sm transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60";
+  "flex h-11 w-full cursor-pointer items-center rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 shadow-sm transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60";
 
 export const textareaCls =
-  "flex min-h-24 w-full rounded-2xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60";
+  "flex min-h-24 w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60";
 
 export const checkCls =
   "h-4 w-4 cursor-pointer rounded border-slate-300 accent-brand-600";
@@ -245,7 +248,7 @@ export function Spinner({ className }: { className?: string }) {
 
 export function LoadingState({ label = "Loading…" }: { label?: string }) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
+    <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-card">
       <div className="flex items-center gap-3 text-sm text-slate-500">
         <Spinner /> {label}
       </div>
@@ -267,7 +270,7 @@ export function EmptyState({
   action?: ReactNode;
 }) {
   return (
-    <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center">
+    <div className="rounded-lg border border-dashed border-slate-300 bg-white p-10 text-center">
       <p className="text-base font-bold text-slate-700">{title}</p>
       {hint && <p className="mx-auto mt-1 max-w-md text-sm text-slate-500">{hint}</p>}
       {action && <div className="mt-4 flex justify-center">{action}</div>}
@@ -279,7 +282,7 @@ export function Alert({ tone = "amber", children }: { tone?: Tone; children: Rea
   return (
     <div
       className={cn(
-        "rounded-2xl border px-4 py-3 text-sm",
+        "rounded-lg border px-4 py-3 text-sm",
         tone === "red" && "border-red-200 bg-red-50 text-red-800",
         tone === "amber" && "border-amber-200 bg-amber-50 text-amber-900",
         tone === "green" && "border-emerald-200 bg-emerald-50 text-emerald-900",

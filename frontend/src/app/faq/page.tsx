@@ -29,7 +29,7 @@ export default async function FaqPage() {
           )
         )}
       </Card>
-      <p className="mt-6 rounded-2xl bg-brand-50 p-4 text-center text-sm text-brand-800">
+      <p className="mt-6 rounded-lg bg-brand-50 p-4 text-center text-sm text-brand-800">
         Still stuck? <a href="/contact" className="font-bold underline">Contact support</a> — we reply fast.
       </p>
     </Container>

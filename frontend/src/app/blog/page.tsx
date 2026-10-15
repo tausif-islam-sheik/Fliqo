@@ -23,7 +23,7 @@ export default function BlogPage() {
       <div className="grid gap-4 md:grid-cols-2">
         {(data ?? []).map((p: any) => (
           <Card key={p.slug} className="flex flex-col p-6 transition hover:-translate-y-0.5 hover:shadow-pop">
-            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
+            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
               <Newspaper className="h-5 w-5" />
             </span>
             <a href={`/blog/${p.slug}`} className="mt-3 text-lg font-extrabold text-slate-900 hover:text-brand-700 hover:underline">

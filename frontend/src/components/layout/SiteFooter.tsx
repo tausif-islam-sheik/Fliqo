@@ -25,7 +25,7 @@ export function SiteFooter() {
     <footer className="mt-16 bg-brand-950 text-brand-100">
       <Container className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="text-xl font-black tracking-tight text-white">
+          <p className="font-display text-2xl font-extrabold tracking-tight text-white">
             Fliqo<span className="text-gold-400">.</span>
           </p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-brand-200">

@@ -61,7 +61,17 @@ export default function TourDetailsPage() {
         <ArrowLeft className="h-4 w-4" /> All tours
       </button>
 
-      <div className="gloss mt-3 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-800 via-blue-800 to-blue-500 p-6 text-white ring-1 ring-white/20 ring-inset sm:p-8">
+      <div className="relative mt-3 overflow-hidden rounded-lg bg-gradient-to-br from-brand-800 via-blue-800 to-blue-500 p-6 text-white ring-1 ring-white/20 ring-inset sm:p-8">
+        {tour.images?.[0] && (
+          <img
+            src={tour.images[0]}
+            alt={tour.title}
+            onError={(e) => { e.currentTarget.style.display = "none"; }}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/30 to-transparent" />
+        <div className="relative text-shadow-hero">
         <p className="flex items-center gap-1.5 text-sm font-bold text-brand-100">
           <MapPin className="h-4 w-4" /> {tour.destination}
         </p>
@@ -78,6 +88,7 @@ export default function TourDetailsPage() {
             ))}
           </div>
         )}
+        </div>
       </div>
 
       <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_320px]">
@@ -94,7 +105,7 @@ export default function TourDetailsPage() {
                 </div>
               ))
             ) : (
-              <pre className="scroll-slim overflow-x-auto rounded-2xl bg-slate-50 p-3 text-xs text-slate-600">
+              <pre className="scroll-slim overflow-x-auto rounded-lg bg-slate-50 p-3 text-xs text-slate-600">
                 {JSON.stringify(tour.itinerary, null, 2)}
               </pre>
             )}
@@ -108,7 +119,7 @@ export default function TourDetailsPage() {
                 <label
                   key={d.id}
                   className={cx(
-                    "flex cursor-pointer items-center gap-3 rounded-2xl border p-4 transition",
+                    "flex cursor-pointer items-center gap-3 rounded-lg border p-4 transition",
                     dep === d.id
                       ? "border-brand-500 bg-brand-50 ring-2 ring-brand-200"
                       : "border-slate-200 bg-white hover:border-brand-300",
